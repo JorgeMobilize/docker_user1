@@ -1,0 +1,51 @@
+version: "3.3"
+services:
+    dockeruser-stage:
+        container_name: dockeruser-stage
+        image: odoo:14
+        labels:
+            - "type=odoo"
+        depends_on:
+            - dockeruser-db
+        ports:
+            - "8200:8069"
+        volumes:
+            - dockeruser-data:/var/lib/odoo
+            - ./stage/extra_addons:/mnt/extra-addons
+            - ./stage:/etc/odoo
+            - ../_odoo14.0.1-e:/usr/lib/python3/dist-packages/odoo
+    dockeruser-live:
+        container_name: dockeruser-live
+        image: odoo:14
+        labels:
+            - "type=odoo"
+        depends_on:
+            - dockeruser-db
+        ports:
+            - "8100:8069"
+        volumes:
+            - dockeruser-data:/var/lib/odoo
+            - ./live/extra_addons:/mnt/extra-addons
+            - ./live:/etc/odoo
+            - ../_odoo14.0.1-e:/usr/lib/python3/dist-packages/odoo
+    dockeruser-db:
+        container_name: dockeruser-db
+        image: postgres:10
+        labels:
+            - "type=psql"
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_PASSWORD=odoo
+            - POSTGRES_USER=odoo
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+            - dockeruser-db-data:/var/lib/postgresql/data/pgdata
+        networks:
+            default:
+                aliases:
+                    - db
+        ports:
+            - "5050:5432"
+volumes:
+    dockeruser-data: 
+    dockeruser-db-data: 
