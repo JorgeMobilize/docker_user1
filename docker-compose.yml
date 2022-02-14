@@ -11,8 +11,8 @@ services:
             - "8200:8069"
         volumes:
             - dockeruser-data:/var/lib/odoo
-            - ./stage/extra_addons:/mnt/extra-addons
-            - ./stage:/etc/odoo
+            - ./extra_addons:/mnt/extra-addons
+            - .:/etc/odoo
             - ../_odoo14.0.1-e:/usr/lib/python3/dist-packages/odoo
     dockeruser-live:
         container_name: dockeruser-live
@@ -25,8 +25,8 @@ services:
             - "8100:8069"
         volumes:
             - dockeruser-data:/var/lib/odoo
-            - ./live/extra_addons:/mnt/extra-addons
-            - ./live:/etc/odoo
+            - ./extra_addons:/mnt/extra-addons
+            - .:/etc/odoo
             - ../_odoo14.0.1-e:/usr/lib/python3/dist-packages/odoo
     dockeruser-db:
         container_name: dockeruser-db
